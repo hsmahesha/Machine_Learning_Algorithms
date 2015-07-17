@@ -61,6 +61,6 @@ class Learner:
           if l_kind == util.LKind.linear_regression:
              self.linear_regression()
           elif l_kind == util.LKind.logistic_regression:
-             pass
+             print("Not yet implemented.")
+             sys.exit()
 #------------------------------------------------------------------------------#
-
