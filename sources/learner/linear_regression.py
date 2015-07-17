@@ -28,7 +28,7 @@ class LinearRegression:
       # simple multi-variate least square linear regression.
       #
       # Let [y1, [x11, x12, ..., x1N]], [y2, [x21, x22, ..., x2N]], ...
-      # [yM, [xM1, xm2, ..., xMN]] where M > N are the given training data.
+      # [yM, [xM1, xM2, ..., xMN]] where M > N are the given training data.
       # Then, the regression coefficients [b1, b2, ... bM] can be computed 
       # through following equations. 
       # Let
