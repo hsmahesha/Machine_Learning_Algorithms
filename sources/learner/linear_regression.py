@@ -20,18 +20,56 @@ import matplotlib.pyplot as plt
 #------------------------------------------------------------------------------#
 
 
+
 #------------------------------------------------------------------------------#
 # LinearRegression Class                                                       #
 #------------------------------------------------------------------------------#
 class LinearRegression:
-      # compute regression coefficients 
-      def compute_regression_coefficients(self, i_mat, o_vec):
+      # simple multi-variate least square linear regression.
+      #
+      # Let [y1, [x11, x12, ..., x1N]], [y2, [x21, x22, ..., x2N]], ...
+      # [yM, [xM1, xm2, ..., xMN]] where M > N are the given training data.
+      # Then, the regression coefficients [b1, b2, ... bM] can be computed 
+      # through following equations. 
+      # Let
+      # 
+      #               1 x11 x12 ... x1N
+      #               1 x21 x22 ... x2N
+      #                     ...
+      #     X  =            ...
+      #                     ...
+      #               1 xM1 xM2 ... xMN
+      #    
+      #               y1
+      #               y2
+      #               .
+      #     Y  =      .
+      #               .
+      #               yM
+      #
+      #               b1
+      #               b2
+      #               .
+      #     B  =      .
+      #               .
+      #               bM
+      # Then
+      #         X^XB = X^Y             (1)
+      #
+      # where X^ is the transpose of X. More details can be found in any
+      # machine learning book 
+      def least_square_linear_regression(self, i_mat, o_vec):
+          # compute equation (1) above
           i_mat_t = np.matrix.transpose(i_mat)
           x_mat = np.dot(i_mat_t, i_mat)
           x_mat_inv = np.linalg.inv(x_mat)
           y_mat = np.dot(x_mat_inv, i_mat_t)
           r_vec = np.dot(y_mat, o_vec)
           return r_vec
+
+      # compute regression coefficients 
+      def compute_regression_coefficients(self, i_mat, o_vec):
+          return self.least_square_linear_regression(i_mat, o_vec)
 
       # construct output vector from data
       def construct_output_vector(self, data):
