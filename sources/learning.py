@@ -39,7 +39,7 @@ import sources.learner.learner as lr
 #------------------------------------------------------------------------------#
 def machine_learning_system(argv):
     # parse command line arguments and get the training data and test data file
-    d_file, t_file = util.parse_command_line_arguments(argv)
+    kind, d_file, t_file = util.parse_command_line_arguments(argv)
 
     # construct file handler object
     fho = fh.FileHandler()
@@ -53,7 +53,7 @@ def machine_learning_system(argv):
     test_data = fho.read_test_data_file()
 
     # construct learner object
-    learner = lr.Learner(train_data, test_data)
+    learner = lr.Learner(train_data, test_data, kind)
 
     # ask machine to learn from train data and make predictions for test data 
     learner.learn_and_predict()

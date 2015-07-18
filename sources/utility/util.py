@@ -62,15 +62,30 @@ def get_learner_kind():
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
 def parse_command_line_arguments(argv):
-    if len(argv) != 3:
+    if len(argv) != 4:
        print("\n")
        print("Error: while parsing commnad line arguments.")
-       print("Usage: python main.py TrainingData.txt TestData.txt")
+       print("\n")
+       print("-------------------------------------------------------------" +
+             "-----------")
+       print("Usage: python main.py Kind TrainingData.txt TestData.txt")
+       print("\n")
+       print("Kind:             Represents type of learner as follows.")
+       print("                   Enter 1 for linear regression")
+       print("                   Enter 2 for logistic regression")
+       print("TrainingData.txt: Choose it based on 'Kind' from './data_set' " +
+             "directory")
+       print("TestData.txt:     Choose it based on 'Kind' from './data_set' " +
+             "directory")
+
+       print("-------------------------------------------------------------" +
+             "-----------")
        print("\n")
        sys.exit()
 
-    d_file = argv[1]
-    t_file = argv[2]
+    kind = int(argv[1])
+    d_file = argv[2]
+    t_file = argv[3]
 
-    return d_file, t_file
+    return kind, d_file, t_file
 #------------------------------------------------------------------------------#
