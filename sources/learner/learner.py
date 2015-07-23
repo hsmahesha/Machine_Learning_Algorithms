@@ -45,6 +45,15 @@ class Learner:
       def __logistic_regression(self):
           lro = log.LogisticRegression()
           r_vec = lro.learn(self.training_data)
+          o_vec, p_vec = lro.predict(self.test_data, r_vec)
+
+          print("\noutput:")
+          print("actual class, predicted class, diff")
+          for i in range(0, len(o_vec)):
+              o = int(o_vec[i])
+              p = int(p_vec[i])
+              d = abs(o-p)
+              print(o, p, d)
 
       # linear regression learner
       def __linear_regression(self):
