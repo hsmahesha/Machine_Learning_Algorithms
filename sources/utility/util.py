@@ -18,6 +18,7 @@
 #------------------------------------------------------------------------------#
 import os
 import sys
+import numpy as np
 from enum import Enum
 #------------------------------------------------------------------------------#
 
@@ -88,4 +89,72 @@ def parse_command_line_arguments(argv):
     t_file = argv[3]
 
     return kind, d_file, t_file
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def compute_mean_squared_error(o_vec, p_vec):
+    io_vec = [int(i) for i in o_vec]
+    ip_vec = [int(i) for i in p_vec]
+    d_vec = np.absolute(np.subtract(io_vec, ip_vec))
+    sqd_vec = np.square(d_vec)
+    sum_sqd_vec = np.sum(sqd_vec)
+    n = len(o_vec)
+    mse = sum_sqd_vec / n
+    return mse
+#------------------------------------------------------------------------------#
+def compute_error_and_accuracy(o_vec, p_vec):
+    false_positive = 0
+    false_negative = 0
+    io_vec = [int(i) for i in o_vec]
+    ip_vec = [int(i) for i in p_vec]
+    N = len(o_vec)
+    for r in range(0, N):
+        if io_vec[r] == 1 and ip_vec[r] == 0:
+           false_negative += 1
+        elif io_vec[r] == 0 and ip_vec[r] == 1:
+           false_positive += 1
+    error = (false_positive + false_negative) / N
+    accuracy = 1 - error
+    return error, accuracy
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+def print_linear_regression_output(o_vec, p_vec, mse):
+    os.system("clear")
+    print("\n\n")
+    print("-------------------------------------------------------------------")
+    print("Linear Regression Predictions For The Data Set:")
+    print("       https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD")
+    print("-------------------------------------------------------------------")
+    #print("\n")
+    #print("Actual Year In Test Data Set:")
+    #print([int(i) for i in o_vec])
+    #print("\n")
+    #print("Predicted Year For Test Data Set:")
+    #print([int(i) for i in p_vec])
+    print("\n")
+    print("Mean Squared Error:  ", mse)
+    print("\n")
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+def print_logistic_regression_output(o_vec, p_vec, error, accuracy):
+    os.system("clear")
+    print("\n\n")
+    print("------------------------------------------------------------")
+    print("Logistic Regression Predictions For The Data Set:")
+    print("         https://archive.ics.uci.edu/ml/datasets/Spambase")
+    print("------------------------------------------------------------")
+    #print("\n")
+    #print("Actual Class Of Test Emails:")
+    #print([int(i) for i in o_vec])
+    #print("\n")
+    #print("Predicted Class Of Test Emails:")
+    #print([int(i) for i in p_vec])
+    print("\n")
+    print("Error:     ", error)
+    print("Accuracy:  ", accuracy)
+    print("\n")
 #------------------------------------------------------------------------------#

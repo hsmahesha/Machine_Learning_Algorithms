@@ -13,6 +13,7 @@
 #------------------------------------------------------------------------------#
 # import built-in system modules here                                          #
 #------------------------------------------------------------------------------#
+import os
 import sys
 #------------------------------------------------------------------------------#
 
@@ -46,31 +47,22 @@ class Learner:
           lro = log.LogisticRegression()
           r_vec = lro.learn(self.training_data)
           o_vec, p_vec = lro.predict(self.test_data, r_vec)
-
-          print("\noutput:")
-          print("actual class, predicted class, diff")
-          for i in range(0, len(o_vec)):
-              o = int(o_vec[i])
-              p = int(p_vec[i])
-              d = abs(o-p)
-              print(o, p, d)
+          error, accuracy = util.compute_error_and_accuracy(o_vec, p_vec)
+          util.print_logistic_regression_output(o_vec, p_vec, error, accuracy)
 
       # linear regression learner
       def __linear_regression(self):
           lro = lin.LinearRegression()
           r_vec = lro.learn(self.training_data)
           o_vec, p_vec = lro.predict(self.test_data, r_vec)
-
-          print("\noutput:")
-          print("actual year, predicted year, difference")
-          for i in range(0, len(o_vec)):
-              o = int(o_vec[i])
-              p = int(p_vec[i])
-              d = abs(o - p)
-              print(o, p, d)
+          mse = util.compute_mean_squared_error(o_vec, p_vec)
+          util.print_linear_regression_output(o_vec, p_vec, mse)
 
       # public interface function of the class Learner
       def learn_and_predict(self):
+          os.system("clear")
+          print("\n\nBe patient... I am learning...")
+
           # call learner based on user choice
           if self.kind == 1:
              self.__linear_regression()
