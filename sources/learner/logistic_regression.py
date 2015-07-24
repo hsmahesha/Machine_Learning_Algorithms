@@ -22,6 +22,13 @@ import matplotlib.pyplot as plt
 
 
 #------------------------------------------------------------------------------#
+# import package modules here                                                  #
+#------------------------------------------------------------------------------#
+import sources.utility.util as util
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
 # IRLS Class: which implements iteratively reweighted least squares.
 #
 # iterative reweighted least squares
@@ -209,6 +216,10 @@ class LogisticRegression:
 
           return o_vec
 
+     # normalize input matrix
+      def normalize_input_matrix(self, i_mat):
+          return util.logarithmic_transformation(i_mat)
+
       # construct input matrix from data
       def construct_input_matrix(self, data):
           rows = len(data)
@@ -222,14 +233,11 @@ class LogisticRegression:
           for line in data:
               c = 1
               for ele in line[:57]:
-                  # As mentioned in Murphy's ML book, transform features
-                  # using log(x[i,j + 0.1])
-                  l_ele = np.log(float(ele) + 0.0001)
-                  i_mat[r][c] = l_ele
+                  i_mat[r][c] = ele
                   c += 1
               r += 1
 
-          return i_mat
+          return self.normalize_input_matrix(i_mat)
 
       # predict test data
       def predict(self, test_data, r_vec):

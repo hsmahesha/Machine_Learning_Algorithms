@@ -21,6 +21,14 @@ import matplotlib.pyplot as plt
 
 
 #------------------------------------------------------------------------------#
+# import package modules here                                                  #
+#------------------------------------------------------------------------------#
+import sources.utility.util as util
+#------------------------------------------------------------------------------#
+
+
+
+#------------------------------------------------------------------------------#
 # LSLR Class: which implements the multi-variate least square linear           
 # regression                                                                   
 #                                                                              
@@ -90,6 +98,10 @@ class LinearRegression:
               r += 1
           return o_vec
 
+      # normalize input matrix
+      def normalize_input_matrix(self, i_mat):
+          return util.standardization(i_mat)
+
       # construct input matrix from data
       def construct_input_matrix(self, data):
           rows = len(data)
@@ -107,7 +119,7 @@ class LinearRegression:
                   c += 1
               r += 1
 
-          return i_mat
+          return self.normalize_input_matrix(i_mat)
 
       # predict test data
       def predict(self, test_data, r_vec):

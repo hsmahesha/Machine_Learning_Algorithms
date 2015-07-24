@@ -34,6 +34,65 @@ class LKind(Enum):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
+def compute_mean_squared_error(o_vec, p_vec):
+    io_vec = [int(i) for i in o_vec]
+    ip_vec = [int(i) for i in p_vec]
+    d_vec = np.absolute(np.subtract(io_vec, ip_vec))
+    sqd_vec = np.square(d_vec)
+    sum_sqd_vec = np.sum(sqd_vec)
+    n = len(o_vec)
+    mse = sum_sqd_vec / n
+    return mse
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def compute_error_and_accuracy(o_vec, p_vec):
+    false_positive = 0
+    false_negative = 0
+    io_vec = [int(i) for i in o_vec]
+    ip_vec = [int(i) for i in p_vec]
+    N = len(o_vec)
+    for r in range(0, N):
+        if io_vec[r] == 1 and ip_vec[r] == 0:
+           false_negative += 1
+        elif io_vec[r] == 0 and ip_vec[r] == 1:
+           false_positive += 1
+    error = (false_positive + false_negative) / N
+    accuracy = 1 - error
+    return error, accuracy
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def standardization(i_mat):
+    i_mat_t = np.matrix.transpose(i_mat)
+    r = 1
+    for row in i_mat_t[1:]:
+        av = np.sum(row) / len(row)
+        vr = np.sum(np.square(np.subtract(row, av))) / (len(row) - 1)
+        sd = np.sqrt(vr)
+        i_mat_t[r] = np.subtract(i_mat_t[r], av)
+        i_mat_t[r] = np.divide(i_mat_t[r], sd)
+        r += 1
+
+    return np.matrix.transpose(i_mat_t)
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def logarithmic_transformation(i_mat):
+    i_mat_t = np.matrix.transpose(i_mat)
+    for r in range(1,len(i_mat_t)):
+        i_mat_t[r] = np.log(i_mat_t[r] + 0.1)
+    return np.matrix.transpose(i_mat_t)
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
 def get_learner_kind():
     os.system("clear")
 
@@ -91,34 +150,8 @@ def parse_command_line_arguments(argv):
     return kind, d_file, t_file
 #------------------------------------------------------------------------------#
 
-#------------------------------------------------------------------------------#
-#------------------------------------------------------------------------------#
-def compute_mean_squared_error(o_vec, p_vec):
-    io_vec = [int(i) for i in o_vec]
-    ip_vec = [int(i) for i in p_vec]
-    d_vec = np.absolute(np.subtract(io_vec, ip_vec))
-    sqd_vec = np.square(d_vec)
-    sum_sqd_vec = np.sum(sqd_vec)
-    n = len(o_vec)
-    mse = sum_sqd_vec / n
-    return mse
-#------------------------------------------------------------------------------#
-def compute_error_and_accuracy(o_vec, p_vec):
-    false_positive = 0
-    false_negative = 0
-    io_vec = [int(i) for i in o_vec]
-    ip_vec = [int(i) for i in p_vec]
-    N = len(o_vec)
-    for r in range(0, N):
-        if io_vec[r] == 1 and ip_vec[r] == 0:
-           false_negative += 1
-        elif io_vec[r] == 0 and ip_vec[r] == 1:
-           false_positive += 1
-    error = (false_positive + false_negative) / N
-    accuracy = 1 - error
-    return error, accuracy
-#------------------------------------------------------------------------------#
 
+#------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
 def print_linear_regression_output(o_vec, p_vec, mse):
     os.system("clear")
@@ -139,6 +172,7 @@ def print_linear_regression_output(o_vec, p_vec, mse):
 #------------------------------------------------------------------------------#
 
 
+#------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
 def print_logistic_regression_output(o_vec, p_vec, error, accuracy):
     os.system("clear")
