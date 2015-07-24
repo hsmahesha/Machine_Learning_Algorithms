@@ -72,8 +72,8 @@ def parse_command_line_arguments(argv):
        print("Usage: python main.py Kind TrainingData.txt TestData.txt")
        print("\n")
        print("Kind:             Represents type of learner as follows.")
-       print("                   Enter 1 for linear regression")
-       print("                   Enter 2 for logistic regression")
+       print("                  Enter 1 for linear regression")
+       print("                  Enter 2 for logistic regression")
        print("TrainingData.txt: Choose it based on 'Kind' from './data_set' " +
              "directory")
        print("TestData.txt:     Choose it based on 'Kind' from './data_set' " +
