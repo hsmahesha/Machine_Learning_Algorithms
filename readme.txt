@@ -41,8 +41,12 @@ command line input:
     Kind: Represents type of learner as follows
           Enter 1 for linear regression
           Enter 2 for logistic regression
+          Enter 3 for k-mean clustering
 
     TrainingData.txt: Choose it based on 'Kind' from './data_set' directory
 
     TestData.txt: Choose it based on 'Kind' from './data_set' directory
+
+Note: For unsupervised learners like k-mean clustering, the 'TestData.txt' 
+      should be empty 'NA.txt' as test data is not applicable for these learners
 #------------------------------------------------------------------------------#

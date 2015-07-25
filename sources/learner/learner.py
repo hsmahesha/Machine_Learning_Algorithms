@@ -24,6 +24,7 @@ import sys
 import sources.utility.util as util
 import sources.learner.linear_regression as lin
 import sources.learner.logistic_regression as log
+import sources.learner.k_mean_clustering as kmc
 #------------------------------------------------------------------------------#
 
 
@@ -42,6 +43,14 @@ class Learner:
           self.test_data = test_data
           self.kind = kind
 
+      # k-mean clustering
+      def __k_mean_clustering(self):
+         kmo = kmc.KMeanCluster()
+         i_mat, cluster, final_centroids = kmo.learn_and_cluster(
+                                                           self.training_data)
+         sse = util.compute_sum_squared_error(i_mat, cluster, final_centroids)
+         util.print_k_mean_clustering_output(cluster, sse)
+
       # logistic regression learner
       def __logistic_regression(self):
           lro = log.LogisticRegression()
@@ -52,9 +61,9 @@ class Learner:
 
       # linear regression learner
       def __linear_regression(self):
-          lro = lin.LinearRegression()
-          r_vec = lro.learn(self.training_data)
-          o_vec, p_vec = lro.predict(self.test_data, r_vec)
+          gro = lin.LinearRegression()
+          r_vec = gro.learn(self.training_data)
+          o_vec, p_vec = gro.predict(self.test_data, r_vec)
           mse = util.compute_mean_squared_error(o_vec, p_vec)
           util.print_linear_regression_output(o_vec, p_vec, mse)
 
@@ -68,4 +77,6 @@ class Learner:
              self.__linear_regression()
           elif self.kind == 2:
              self.__logistic_regression()
+          elif self.kind == 3:
+             self.__k_mean_clustering()
 #------------------------------------------------------------------------------#

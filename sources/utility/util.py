@@ -19,6 +19,7 @@
 import os
 import sys
 import numpy as np
+from scipy.spatial import distance as sci_dist
 from enum import Enum
 #------------------------------------------------------------------------------#
 
@@ -48,6 +49,18 @@ def compute_mean_squared_error(o_vec, p_vec):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
+def compute_sum_squared_error(i_mat, cluster, final_centroids):
+    sse = 0.0
+    for key, val_list in cluster.items():
+        centroid = final_centroids[key]
+        for index in val_list:
+            sse += sci_dist.euclidean(i_mat[index], centroid)
+    return sse
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
 def compute_error_and_accuracy(o_vec, p_vec):
     false_positive = 0
     false_negative = 0
@@ -67,10 +80,15 @@ def compute_error_and_accuracy(o_vec, p_vec):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
-def standardization(i_mat):
+def standardization(i_mat, skip_first_col=True):
     i_mat_t = np.matrix.transpose(i_mat)
     r = 1
-    for row in i_mat_t[1:]:
+    k = 1
+    if skip_first_col == False:
+       r = 0
+       k = 0
+
+    for row in i_mat_t[k:]:
         av = np.sum(row) / len(row)
         vr = np.sum(np.square(np.subtract(row, av))) / (len(row) - 1)
         sd = np.sqrt(vr)
@@ -128,18 +146,25 @@ def parse_command_line_arguments(argv):
        print("\n")
        print("-------------------------------------------------------------" +
              "-----------")
-       print("Usage: python main.py Kind TrainingData.txt TestData.txt")
-       print("\n")
+       print("Usage:         python main.py Kind TrainingData.txt TestData.txt")
+       print("-------------------------------------------------------------" +
+             "-----------")
        print("Kind:             Represents type of learner as follows.")
        print("                  Enter 1 for linear regression")
        print("                  Enter 2 for logistic regression")
+       print("                  Enter 3 for k-mean clustering")
        print("TrainingData.txt: Choose it based on 'Kind' from './data_set' " +
              "directory")
        print("TestData.txt:     Choose it based on 'Kind' from './data_set' " +
              "directory")
-
        print("-------------------------------------------------------------" +
              "-----------")
+       print("\n")
+       print("Note:  For unsupervised learners like k-mean clustering, the " +
+             "'TestData.txt'\n       should be empty 'NA.txt' as test data " +
+             "is not applicable for these learners")
+       #print("-------------------------------------------------------------" +
+       #      "-----------")
        print("\n")
        sys.exit()
 
@@ -190,5 +215,25 @@ def print_logistic_regression_output(o_vec, p_vec, error, accuracy):
     print("\n")
     print("Error:     ", error)
     print("Accuracy:  ", accuracy)
+    print("\n")
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def print_k_mean_clustering_output(cluster, sse):
+    os.system("clear")
+    print("\n\n")
+    print("------------------------------------------------------------")
+    print("K Mean Clustering Output For The Data Set:")
+    print("        http://guidetodatamining.com/guide/data/mpg.txt")
+    print("------------------------------------------------------------")
+    print("\n")
+    print("K Clusters where K is :", len(cluster))
+    print("\n")
+    for key, val_list in cluster.items():
+        print(key, ":   ", val_list)
+        print("\n")
+    print("Sum Squared Error:     ", sse)
     print("\n")
 #------------------------------------------------------------------------------#
