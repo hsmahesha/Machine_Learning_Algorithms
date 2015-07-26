@@ -47,7 +47,8 @@ class Learner:
       # hierarchical clustering
       def __hierarchical_clustering(self):
          hro = hrc.HierarchicalCluster()
-         hro.cluster(self.training_data)
+         cluster_list = hro.cluster(self.training_data)
+         util.print_hierarchical_clustering_output(cluster_list)
 
       # k-mean clustering
       def __k_mean_clustering(self):

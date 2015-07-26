@@ -208,6 +208,7 @@ def parse_command_line_arguments(argv):
        print("                  Enter 1 for linear regression")
        print("                  Enter 2 for logistic regression")
        print("                  Enter 3 for k-mean clustering")
+       print("                  Enter 4 for k-mean clustering")
        print("TrainingData.txt: Choose it based on 'Kind' from './data_set' " +
              "directory")
        print("TestData.txt:     Choose it based on 'Kind' from './data_set' " +
@@ -290,5 +291,29 @@ def print_k_mean_clustering_output(cluster, sse):
         print(key, ":   ", val_list)
         print("\n")
     print("Sum Squared Error:     ", sse)
+    print("\n")
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def print_hierarchical_clustering_output(cluster_list):
+    os.system("clear")
+    print("\n\n")
+    print("------------------------------------------------------------")
+    print("Hierarchical Clustering Output For The Data Set:")
+    print("      dog.scv data-set from http://guidetodatamining.com/chapter-8/")
+    print("------------------------------------------------------------")
+    print("\n")
+    print("\n")
+    print("Cluster Hierarchy:")
+    print("\n")
+    r = 0
+    for cluster in cluster_list:
+        r += 1
+        print("Hierarchy ", r)
+        for key, v_list in cluster.items():
+            print(key,":\t", v_list)
+        print("\n")
     print("\n")
 #------------------------------------------------------------------------------#

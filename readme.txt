@@ -42,6 +42,7 @@ command line input:
           Enter 1 for linear regression
           Enter 2 for logistic regression
           Enter 3 for k-mean clustering
+          Enter 4 for hierarchical clustering
 
     TrainingData.txt: Choose it based on 'Kind' from './data_set' directory
 
