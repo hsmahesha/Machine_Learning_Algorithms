@@ -82,11 +82,14 @@ def compute_error_and_accuracy(o_vec, p_vec):
 #------------------------------------------------------------------------------#
 def median(row):
     srow = np.sort(row)
-    ln = (srow)
+    ln = len(srow)
     if ln % 2 == 1:
-       return srow[ln // 2]
+       mid = ln // 2
+       return srow[mid]
     else:
-       return (srow[ln // 2] +  srow[(ln // 2) + 1]) / 2.0
+       mid_min_1 = (ln // 2) - 1
+       mid = ln // 2
+       return (srow[mid_min_1] +  srow[mid]) / 2
 #------------------------------------------------------------------------------#
 
 

@@ -25,6 +25,7 @@ import sources.utility.util as util
 import sources.learner.linear_regression as lin
 import sources.learner.logistic_regression as log
 import sources.learner.k_mean_clustering as kmc
+import sources.learner.hierarchical_clustering as hrc
 #------------------------------------------------------------------------------#
 
 
@@ -42,6 +43,11 @@ class Learner:
           self.training_data = training_data
           self.test_data = test_data
           self.kind = kind
+
+      # hierarchical clustering
+      def __hierarchical_clustering(self):
+         hro = hrc.HierarchicalCluster()
+         hro.cluster(self.training_data)
 
       # k-mean clustering
       def __k_mean_clustering(self):
@@ -78,4 +84,6 @@ class Learner:
              self.__logistic_regression()
           elif self.kind == 3:
              self.__k_mean_clustering()
+          elif self.kind == 4:
+             self.__hierarchical_clustering()
 #------------------------------------------------------------------------------#
