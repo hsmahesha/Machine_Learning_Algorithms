@@ -80,21 +80,50 @@ def compute_error_and_accuracy(o_vec, p_vec):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
-def standardization(i_mat, skip_first_col=True):
-    i_mat_t = np.matrix.transpose(i_mat)
-    r = 1
-    k = 1
-    if skip_first_col == False:
-       r = 0
-       k = 0
+def median(row):
+    srow = np.sort(row)
+    ln = (srow)
+    if ln % 2 == 1:
+       return srow[ln // 2]
+    else:
+       return (srow[ln // 2] +  srow[(ln // 2) + 1]) / 2.0
+#------------------------------------------------------------------------------#
 
-    for row in i_mat_t[k:]:
-        av = np.sum(row) / len(row)
-        vr = np.sum(np.square(np.subtract(row, av))) / (len(row) - 1)
-        sd = np.sqrt(vr)
-        i_mat_t[r] = np.subtract(i_mat_t[r], av)
-        i_mat_t[r] = np.divide(i_mat_t[r], sd)
-        r += 1
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def average(row):
+    av = np.sum(row) / len(row)
+    return av
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def standard_deviation(row):
+    av = average(row)
+    sb = np.subtract(row, av)
+    sq = np.square(sb)
+    ssq = np.sum(sq)
+    vr = ssq / (len(row) - 1)
+    sd = abs(np.sqrt(vr))
+    return sd
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def modified_standardization(i_mat, skip_first_col=False):
+    c = 0
+    if skip_first_col == True:
+       c = 1
+
+    i_mat_t = np.matrix.transpose(i_mat)
+    for r in range(c, len(i_mat_t)):
+        md = median(i_mat_t[r])
+        sd = standard_deviation(i_mat_t[r])
+        numer = np.subtract(i_mat_t[r], md)
+        i_mat_t[r] = np.divide(numer, sd)
 
     return np.matrix.transpose(i_mat_t)
 #------------------------------------------------------------------------------#
@@ -102,12 +131,35 @@ def standardization(i_mat, skip_first_col=True):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
-def logarithmic_transformation(i_mat):
+def standardization(i_mat, skip_first_col=False):
+    c = 0
+    if skip_first_col == True:
+       c = 1
+
     i_mat_t = np.matrix.transpose(i_mat)
-    for r in range(1,len(i_mat_t)):
+    for r in range(c, len(i_mat_t)):
+        av = average(i_mat_t[r])
+        sd = standard_deviation(i_mat_t[r])
+        numer = np.subtract(i_mat_t[r], av)
+        i_mat_t[r] = np.divide(numer, sd)
+
+    return np.matrix.transpose(i_mat_t)
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def logarithmic_transformation(i_mat, skip_first_col=False):
+    c = 0
+    if skip_first_col == True:
+       c = 1
+
+    i_mat_t = np.matrix.transpose(i_mat)
+    for r in range(c,len(i_mat_t)):
         i_mat_t[r] = np.log(i_mat_t[r] + 0.1)
     return np.matrix.transpose(i_mat_t)
 #------------------------------------------------------------------------------#
+
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#

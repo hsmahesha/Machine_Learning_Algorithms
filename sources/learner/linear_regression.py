@@ -100,7 +100,7 @@ class LinearRegression:
 
       # normalize input matrix
       def normalize_input_matrix(self, i_mat):
-          return util.standardization(i_mat)
+          return util.standardization(i_mat, True)
 
       # construct input matrix from data
       def construct_input_matrix(self, data):

@@ -1,6 +1,6 @@
 ################################################################################
 #                                                                              #
-#                      Linear Regression Based Learner:                        #
+#                            K-Means Clustering:                               #
 #                                                                              #
 ################################################################################
 #                                                                              #
@@ -196,7 +196,7 @@ class LloydKMC:
 
 
 #------------------------------------------------------------------------------#
-# Class KMC: which implements k-mean clustering                                #
+# Class KMeanCluster: which implements k-mean clustering                       #
 #------------------------------------------------------------------------------#
 class KMeanCluster:
       # cluster data into k meangingful groups
