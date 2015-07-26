@@ -46,8 +46,7 @@ class Learner:
       # k-mean clustering
       def __k_mean_clustering(self):
          kmo = kmc.KMeanCluster()
-         i_mat, cluster, final_centroids = kmo.learn_and_cluster(
-                                                           self.training_data)
+         i_mat, cluster, final_centroids = kmo.cluster(self.training_data)
          sse = util.compute_sum_squared_error(i_mat, cluster, final_centroids)
          util.print_k_mean_clustering_output(cluster, sse)
 

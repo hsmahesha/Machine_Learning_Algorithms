@@ -225,7 +225,7 @@ class KMeanCluster:
           return self.normalize_input_matrix(i_mat)
 
       # ask k-mean clusterer to cluster the data into k meaningful groups 
-      def learn_and_cluster(self, data):
+      def cluster(self, data):
           # construct input matrix from data
           i_mat = self.construct_input_matrix(data)
 
