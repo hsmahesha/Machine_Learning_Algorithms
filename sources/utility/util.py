@@ -329,17 +329,26 @@ def print_hierarchical_clustering_output(cluster_list):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
-def print_classification_tree(root):
+def print_classification_tree_output(test_data, root, class_dict):
     os.system("clear")
     print("\n\n")
     print("------------------------------------------------------------")
-    print("Classification Tree For A Small Data Set:")
-    print("              ./data_set/class_tree/TrainingData.txt")
+    print("Classification Tree For A Small Training Data Set:")
+    print("                   ./data_set/class_tree/TrainingData.txt")
     print("------------------------------------------------------------")
-    print("\n")
     print("\n")
     cto = pct.PrintTree(root)
     cto.print_tree()
     cto.draw_tree()
     print("\n")
+    print("\n")
+    print("------------------------------------------------------------")
+    print("Classification Of A Small Test Data Set:")
+    print("                  ./data_set/class_tree/TestData.txt")
+    print("------------------------------------------------------------")
+    print("\n")
+    for k, v in class_dict.items():
+        print("Test Item:       ", test_data[k])
+        print("Classification:  ", v)
+        print("\n")
 #------------------------------------------------------------------------------#

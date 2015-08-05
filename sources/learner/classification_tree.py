@@ -223,6 +223,63 @@ class ClassificationTree:
               r += 1
           return data_set
 
+      def select_branch_based_on_value_comparison(self, tree, row):
+          node = None
+          t_col = tree.col
+          t_val = tree.value
+          if row[t_col] >= t_val:
+             node = tree.tnode
+          else:
+             node = tree.fnode
+          return node
+
+      def select_branch_based_on_value_equality(self, tree, row):
+          node = None
+          t_col = tree.col
+          t_val = tree.value
+          if row[t_col] == t_val:
+             node = tree.tnode
+          else:
+             node = tree.fnode
+          return node
+
+      def select_branch(self, tree, row):
+          cur_select_branch = None
+          t_val = tree.value
+          if isinstance(t_val, int) or isinstance(t_val, float):
+             cur_select_branch = self.select_branch_based_on_value_comparison
+          else:
+             cur_select_branch = self.select_branch_based_on_value_equality
+          return cur_select_branch(tree, row)
+
+      # recusrively classify the given test data item
+      def recursive_classify(self, tree, row):
+          if tree.leaf_node == False:
+             node = self.select_branch(tree, row)
+             return self.recursive_classify(node, row)
+          else:
+             return tree
+
+      # classify the test data
+      def classify(self, root, test_data):
+         # preprocess test data
+         processed_test_data = self.preprocess_data_set(test_data)
+
+         # classify test data
+         class_dict = {}
+         for r in range(0, len(processed_test_data)):
+             row = processed_test_data[r]
+             node = self.recursive_classify(root, row)
+             results = node.results
+             cur_v = 0
+             cur_k = None
+             for k, v in results.items():
+                 if v > cur_v:
+                    cur_v = v
+                    cur_k = k
+             class_dict[r] = cur_k
+         return class_dict
+
       # ask classification tree learner to learn from training data
       def learn(self, training_data):
           # preprocess the data set

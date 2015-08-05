@@ -49,7 +49,8 @@ class Learner:
       def __classification_tree(self):
          clo = cla.ClassificationTree()
          root = clo.learn(self.training_data)
-         util.print_classification_tree(root)
+         class_dict = clo.classify(root, self.test_data)
+         util.print_classification_tree_output(self.test_data, root, class_dict)
 
       # hierarchical clustering
       def __hierarchical_clustering(self):
