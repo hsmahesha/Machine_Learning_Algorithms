@@ -25,6 +25,13 @@ from enum import Enum
 
 
 #------------------------------------------------------------------------------#
+# import package modules here                                                  #
+#------------------------------------------------------------------------------#
+import sources.utility.print_classification_tree as pct
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
 # enum class which distinguishes different recommender systems
 #------------------------------------------------------------------------------#
 class LKind(Enum):
@@ -209,6 +216,7 @@ def parse_command_line_arguments(argv):
        print("                  Enter 2 for logistic regression")
        print("                  Enter 3 for k-mean clustering")
        print("                  Enter 4 for k-mean clustering")
+       print("                  Enter 5 for decision tree based classification")
        print("TrainingData.txt: Choose it based on 'Kind' from './data_set' " +
              "directory")
        print("TestData.txt:     Choose it based on 'Kind' from './data_set' " +
@@ -315,5 +323,23 @@ def print_hierarchical_clustering_output(cluster_list):
         for key, v_list in cluster.items():
             print(key,":\t", v_list)
         print("\n")
+    print("\n")
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def print_classification_tree(root):
+    os.system("clear")
+    print("\n\n")
+    print("------------------------------------------------------------")
+    print("Classification Tree For A Small Data Set:")
+    print("              ./data_set/class_tree/TrainingData.txt")
+    print("------------------------------------------------------------")
+    print("\n")
+    print("\n")
+    cto = pct.PrintTree(root)
+    cto.print_tree()
+    cto.draw_tree()
     print("\n")
 #------------------------------------------------------------------------------#

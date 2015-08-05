@@ -26,6 +26,7 @@ import sources.learner.linear_regression as lin
 import sources.learner.logistic_regression as log
 import sources.learner.k_mean_clustering as kmc
 import sources.learner.hierarchical_clustering as hrc
+import sources.learner.classification_tree as cla
 #------------------------------------------------------------------------------#
 
 
@@ -43,6 +44,12 @@ class Learner:
           self.training_data = training_data
           self.test_data = test_data
           self.kind = kind
+
+      # classification tree
+      def __classification_tree(self):
+         clo = cla.ClassificationTree()
+         root = clo.learn(self.training_data)
+         util.print_classification_tree(root)
 
       # hierarchical clustering
       def __hierarchical_clustering(self):
@@ -87,4 +94,6 @@ class Learner:
              self.__k_mean_clustering()
           elif self.kind == 4:
              self.__hierarchical_clustering()
+          elif self.kind == 5:
+             self.__classification_tree()
 #------------------------------------------------------------------------------#
