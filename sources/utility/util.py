@@ -183,6 +183,17 @@ def get_correct_class_dict_for_classification_tree():
     return l_dict
 #------------------------------------------------------------------------------#
 
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def get_correct_class_dict_for_random_forest():
+    l_file  = open("./data_set/class_tree/LocalizationKey.txt")
+    l_file_data = list(csv.reader(l_file, delimiter=','))
+    l_dict = {}
+    for row in l_file_data:
+        l_dict[row[0]] = row[1]
+    return l_dict
+#------------------------------------------------------------------------------#
+
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
@@ -230,6 +241,7 @@ def parse_command_line_arguments(argv):
        print("                  Enter 3 for k-mean clustering")
        print("                  Enter 4 for k-mean clustering")
        print("                  Enter 5 for decision tree based classification")
+       print("                  Enter 6 for random forest based classification")
        print("TrainingData.txt: Choose it based on 'Kind' from './data_set' " +
              "directory")
        print("TestData.txt:     Choose it based on 'Kind' from './data_set' " +
@@ -346,11 +358,46 @@ def print_classification_tree_output(test_data, root, class_dict,
                                      correct_class_dict):
     os.system("clear")
     print("\n\n")
-    print("------------------------------------------------------------")
+    print("-------------------------------------------------------------------")
     print("Classification Tree Output For Training Data Set:")
     print("     data set 2 at http://pages.cs.wisc.edu/~dpage/kddcup2001/")
     print("     where, classification task is to predict localization of genes")
-    print("------------------------------------------------------------")
+    print("-------------------------------------------------------------------")
+    print("\n")
+    print("\n")
+    print("------------------------------------------------")
+    print("Sl no: gene_no, actual class, predicted class")
+    print("------------------------------------------------")
+    succ = 0
+    fail = 0
+    r = 1
+    for k, v in class_dict.items():
+        if k not in correct_class_dict:
+           continue
+        cc = correct_class_dict[k]
+        print(r, ':', k, "'"+cc+"'", "'"+v+"'")
+        if cc == v:
+           succ += 1
+        else:
+           fail += 1
+        r += 1
+    print("\n\n")
+    print("Number of genes correctly classified:    ", succ)
+    print("Number of genes incorrectly classified:  ", fail)
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def print_random_forest_output(test_data, roots, class_dict,
+                               correct_class_dict):
+    os.system("clear")
+    print("\n\n")
+    print("--------------------------------------------------------------------")
+    print("Random Forest Output For Training Data Set:")
+    print("     data set 2 at http://pages.cs.wisc.edu/~dpage/kddcup2001/")
+    print("     where, classification task is to predict localization of genes")
+    print("--------------------------------------------------------------------")
     print("\n")
     print("\n")
     print("------------------------------------------------")

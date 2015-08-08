@@ -27,6 +27,7 @@ import sources.learner.logistic_regression as log
 import sources.learner.k_mean_clustering as kmc
 import sources.learner.hierarchical_clustering as hrc
 import sources.learner.classification_tree as cla
+import sources.learner.random_forest as rf
 #------------------------------------------------------------------------------#
 
 
@@ -44,6 +45,15 @@ class Learner:
           self.training_data = training_data
           self.test_data = test_data
           self.kind = kind
+
+      # random forest 
+      def __random_forest(self):
+         rfo = rf.RandomForest()
+         roots = rfo.learn(self.training_data)
+         class_dict = rfo.classify(roots, self.test_data)
+         correct_class_dict = util.get_correct_class_dict_for_random_forest()
+         util.print_random_forest_output(self.test_data, roots, class_dict,
+                                         correct_class_dict)
 
       # classification tree
       def __classification_tree(self):
@@ -100,4 +110,6 @@ class Learner:
              self.__hierarchical_clustering()
           elif self.kind == 5:
              self.__classification_tree()
+          elif self.kind == 6:
+             self.__random_forest()
 #------------------------------------------------------------------------------#

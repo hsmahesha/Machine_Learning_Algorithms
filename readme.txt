@@ -44,6 +44,7 @@ command line input:
           Enter 3 for k-mean clustering
           Enter 4 for hierarchical clustering
           Enter 5 for decision tree based classification
+          Enter 6 for random forest based classification
 
     TrainingData.txt: Choose it based on 'Kind' from './data_set' directory
 
