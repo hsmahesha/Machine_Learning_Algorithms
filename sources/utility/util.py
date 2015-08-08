@@ -18,6 +18,7 @@
 #------------------------------------------------------------------------------#
 import os
 import sys
+import csv
 import numpy as np
 from scipy.spatial import distance as sci_dist
 from enum import Enum
@@ -168,6 +169,18 @@ def logarithmic_transformation(i_mat, skip_first_col=False):
     for r in range(c,len(i_mat_t)):
         i_mat_t[r] = np.log(i_mat_t[r] + 0.1)
     return np.matrix.transpose(i_mat_t)
+#------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
+def get_correct_class_dict_for_classification_tree():
+    l_file  = open("./data_set/class_tree/LocalizationKey.txt")
+    l_file_data = list(csv.reader(l_file, delimiter=','))
+    l_dict = {}
+    for row in l_file_data:
+        l_dict[row[0]] = row[1]
+    return l_dict
 #------------------------------------------------------------------------------#
 
 
@@ -329,29 +342,34 @@ def print_hierarchical_clustering_output(cluster_list):
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
-def print_classification_tree_output(test_data, root, class_dict):
+def print_classification_tree_output(test_data, root, class_dict,
+                                     correct_class_dict):
     os.system("clear")
     print("\n\n")
     print("------------------------------------------------------------")
-    print("Classification Tree For A Small Training Data Set:")
-    print("                   ./data_set/class_tree/TrainingData.txt")
+    print("Classification Tree Output For Training Data Set:")
+    print("     data set 2 at http://pages.cs.wisc.edu/~dpage/kddcup2001/")
+    print("     where, classification task is to predict localization of genes")
     print("------------------------------------------------------------")
     print("\n")
-    cto = pct.PrintTree(root)
-    cto.print_tree()
-    print("\n\n")
-    print("Visual display of tree is dumped to following .jpg file:")
-    print("                   ./data_set/class_tree/class_tree.jpg")
-    cto.draw_tree()
     print("\n")
-    print("\n")
-    print("------------------------------------------------------------")
-    print("Classification Of A Small Test Data Set:")
-    print("                  ./data_set/class_tree/TestData.txt")
-    print("------------------------------------------------------------")
-    print("\n")
+    print("------------------------------------------------")
+    print("Sl no: gene_no, actual class, predicted class")
+    print("------------------------------------------------")
+    succ = 0
+    fail = 0
+    r = 1
     for k, v in class_dict.items():
-        print("Test Item:       ", test_data[k])
-        print("Classification:  ", v)
-        print("\n")
+        if k not in correct_class_dict:
+           continue
+        cc = correct_class_dict[k]
+        print(r, ':', k, "'"+cc+"'", "'"+v+"'")
+        if cc == v:
+           succ += 1
+        else:
+           fail += 1
+        r += 1
+    print("\n\n")
+    print("Number of genes correctly classified:    ", succ)
+    print("Number of genes incorrectly classified:  ", fail)
 #------------------------------------------------------------------------------#

@@ -141,6 +141,9 @@ class CART:
           for col in range(0, col_count):
               values = self.get_value_count(data_set, col)
               for k in values.keys():
+                  # there are missing values, simply skip over these values
+                  if k == '?':
+                     continue
                   set1, set2 = self.binary_classify_data_set(data_set, col, k)
                   set1_impurity = self.compute_impurity(set1)
                   set2_impurity = self.compute_impurity(set2)
@@ -214,14 +217,39 @@ class ClassificationTree:
 
       # preprocess the data set
       def preprocess_data_set(self, data_set):
-          r = 0
-          for row in data_set:
-              for c in range(0, len(row)):
-                  if c == 3:
-                     row[c] = int(row[c])
-                     data_set[r] = row
-              r += 1
+          rows = len(data_set)
+          cols = len(data_set[0])
+
+          for r in range(0, rows):
+              # missing chromosome numbers
+              if data_set[r][444] == '?':
+                 data_set[r][444] = '7'
+              # convert chromosome numbers to int type
+              data_set[r][444] = int(data_set[r][444])
+              # delete 'extra full stop' at the end of the line
+              data_set[r][2959] = data_set[r][2959][:-1]
+              # delete first column which represents the gene type
+              del data_set[r][0]
+              # delete all function class as they should not be used
+              # as features
+              del data_set[r][2944:2958]
+
           return data_set
+
+      def get_gene_list(self, data):
+          gene_list = []
+          for row in data:
+              gene_list.append(row[0])
+          return gene_list
+
+      def get_class(self, results):
+          cur_v = 0
+          cur_k = None
+          for k, v in results.items():
+              if v > cur_v:
+                 cur_v = v
+                 cur_k = k
+          return cur_k
 
       def select_branch_based_on_value_comparison(self, tree, row):
           node = None
@@ -262,6 +290,9 @@ class ClassificationTree:
 
       # classify the test data
       def classify(self, root, test_data):
+         # save gene listi before pre-processing
+         gene_list = self.get_gene_list(test_data)
+
          # preprocess test data
          processed_test_data = self.preprocess_data_set(test_data)
 
@@ -270,14 +301,8 @@ class ClassificationTree:
          for r in range(0, len(processed_test_data)):
              row = processed_test_data[r]
              node = self.recursive_classify(root, row)
-             results = node.results
-             cur_v = 0
-             cur_k = None
-             for k, v in results.items():
-                 if v > cur_v:
-                    cur_v = v
-                    cur_k = k
-             class_dict[r] = cur_k
+             cur_gene = gene_list[r]
+             class_dict[cur_gene] = self.get_class(node.results)
          return class_dict
 
       # ask classification tree learner to learn from training data
