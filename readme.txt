@@ -2,7 +2,7 @@
                          Machine Learning System:
 
 This project implements different machine larning techniques. Note that this is
-an hobby project implemented in order to get practical hands on with different
+an hobby project implemented in order to get practical hands-on with different
 machine learning approaches. And it is a work in progress.
 #------------------------------------------------------------------------------#
 
