@@ -8,7 +8,7 @@ machine learning approaches. And it is a work in progress.
 
 
 #------------------------------------------------------------------------------#
-Description Of Files And Projects:
+Description Of Files And Directories:
 #------------------------------------------------------------------------------#
 readme.txt: 
    this file.
